@@ -4,11 +4,11 @@ const sequelize = require('../utils/db');
 const Product = sequelize.define('Product', {
     handle: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     title: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     descripcion: {
         type: DataTypes.TEXT,
@@ -16,27 +16,27 @@ const Product = sequelize.define('Product', {
     },
     sku: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     grams: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
     },
     stock: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     price: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
     },
     compare_price: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
     },
     barcode: {
         type: DataTypes.FLOAT,
-        allowNull: false
+        allowNull: true
     }
 });
 
