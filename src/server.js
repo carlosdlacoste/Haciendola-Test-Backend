@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const sequelize = require('./utils/db');
 const User = require('./models/user');
-const Product = require('./models/product');
+// const Product = require('./models/product');
 
 sequelize.sync({ force: true }).then(() => {
     console.log('Tablas creadas correctamente');
