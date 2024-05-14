@@ -30,13 +30,74 @@ exports.loadProductsFromExcel = async (req, res) => {
     }
 };
 
-exports.getAllProducts = async (req, res) => {
-    const product = new Product();
+// Crear un nuevo producto
+exports.createProduct = async (req, res) => {
     try {
-        const products = await product.getAllProducts();
+        const newProduct = await Product.create(req.body);
+        res.status(201).json(newProduct);
+    } catch (error) {
+        console.error('Error creating product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+  // Obtener todos los productos
+exports.getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.findAll();
         res.json(products);
     } catch (error) {
         console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+  // Obtener un producto por ID
+exports.getProductById = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const product = await Product.findByPk(productId);
+        if (!product) {
+            res.status(404).json({ message: 'Product not found' });
+        } else {
+            res.json(product);
+        }
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+  // Actualizar un producto por ID
+exports.updateProductById = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const product = await Product.findByPk(productId);
+        if (!product) {
+            res.status(404).json({ message: 'Product not found' });
+        } else {
+            await product.update(req.body);
+            res.json(product);
+        }
+    } catch (error) {
+        console.error('Error updating product:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+  // Eliminar un producto por ID
+exports.deleteProductById = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const product = await Product.findByPk(productId);
+        if (!product) {
+            res.status(404).json({ message: 'Product not found' });
+        } else {
+            await product.destroy();
+            res.json({ message: 'Product deleted successfully' });
+        }
+    } catch (error) {
+        console.error('Error deleting product:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
