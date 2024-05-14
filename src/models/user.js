@@ -1,15 +1,24 @@
-const pool = require('../utils/db');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-class User {
-    async authenticate(username, password) {
-        try {
-            const query = 'SELECT * FROM users WHERE username = $1 AND password = $2';
-            const result = await pool.query(query, [username, password]);
-            return result.rows[0];
-        } catch (error) {
-            throw error;
-        }
+const User = sequelize.define('User', {
+    nombre: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    correo_electronico: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    contraseña: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-}
+});
 
 module.exports = User;
