@@ -16,7 +16,14 @@ exports.authenticateUser = async (req, res) => {
         // Generar token de autenticación solo si la contraseña es correcta
         const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
 
-        res.json({ token });
+        const userWithoutPassword = {
+            id: user.id,
+            name: user.nombre,
+            email: user.correo_electronico,
+            username: user.username
+        }
+
+        res.json({ token, user: userWithoutPassword });
     } catch (error) {
         console.error('Error authenticating user:', error);
         res.status(500).json({ message: 'Internal server error' });
