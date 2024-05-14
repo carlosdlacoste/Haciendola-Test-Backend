@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
     nombre: {
@@ -22,8 +22,15 @@ const User = sequelize.define('User', {
     }
 });
 
-User.prototype.validPassword = function(password) {
-    return this.password === password;
+User.beforeCreate(async (user) => {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+    user.password = hashedPassword;
+});
+
+  // Método para verificar la contraseña del usuario
+User.prototype.validPassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
 };
 
 module.exports = User;
