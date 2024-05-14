@@ -9,8 +9,8 @@ const sequelize = require('./utils/db');
 const User = require('./models/user');
 const Product = require('./models/product');
 
-sequelize.sync({ force: true }).then(() => {
-    console.log('Tablas creadas correctamente');
+sequelize.sync({ force: false }).then(() => {
+    console.log('Base de datos sincronizada!');
     }).catch(err => {
         console.error('Error al sincronizar tablas:', err);
 });
