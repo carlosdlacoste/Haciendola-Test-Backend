@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
+// const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
     nombre: {
@@ -15,10 +16,14 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true
     },
-    contraseña: {
+    password: {
         type: DataTypes.STRING,
         allowNull: false
     }
 });
+
+User.prototype.validPassword = function(password) {
+    return this.password === password;
+};
 
 module.exports = User;
