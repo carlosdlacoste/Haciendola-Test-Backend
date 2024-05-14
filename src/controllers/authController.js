@@ -1,15 +1,22 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
 exports.authenticateUser = async (req, res) => {
     const { username, password } = req.body;
-    const user = new User();
+
     try {
-        const authenticatedUser = await user.authenticate(username, password);
-        if (authenticatedUser) {
-            res.json({ message: 'Authentication successful', user: authenticatedUser });
-        } else {
-            res.status(401).json({ message: 'Invalid credentials' });
+        // Buscar al usuario en la base de datos
+        const user = await User.findOne({ where: { username } });
+
+        // Verificar si el usuario existe y la contraseña es correcta
+        if (!user || !user.validPassword(password)) {
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
+
+        // Generar token de autenticación
+        const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
+
+        res.json({ token });
     } catch (error) {
         console.error('Error authenticating user:', error);
         res.status(500).json({ message: 'Internal server error' });
