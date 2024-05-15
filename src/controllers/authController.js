@@ -14,7 +14,7 @@ exports.authenticateUser = async (req, res) => {
         }
 
         // Generar token de autenticación solo si la contraseña es correcta
-        const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.id }, 'secretKey', { expiresIn: '15m' });
 
         const userWithoutPassword = {
             id: user.id,
