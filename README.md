@@ -46,7 +46,7 @@ const sequelize = new Sequelize({
 
     node .\src\server.js
 
-    El servidor se ejecutará en http://localhost:3000 por defecto.
+    El servidor se ejecutará en http://localhost:5000 por defecto.
 
 ## Uso de la API
 
